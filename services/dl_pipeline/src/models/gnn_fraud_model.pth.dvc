@@ -1,0 +1,5 @@
+outs:
+- md5: 9217f10cb0a1c70411796074c07ce865
+  size: 132899
+  hash: md5
+  path: gnn_fraud_model.pth
