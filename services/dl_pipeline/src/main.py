@@ -33,17 +33,34 @@ def main():
         # 1. Load the cleaned dataframe (if not already in memory)
         df = pd.read_csv(FINAL_CLEANED_PATH)
         
-        # 2. Build the Graph
         builder = GraphBuilder()
         graph_data = builder.construct_hetero_graph(df)
+
+        # 1. num_nodes here for a new graph
+        num_nodes = graph_data['transaction'].num_nodes
         
-        # 3. Save the PyTorch Object 
+        train_mask = torch.zeros(num_nodes, dtype=torch.bool)
+        train_mask[:int(num_nodes * 0.8)] = True
+        val_mask = ~train_mask
+        
+        graph_data['transaction'].train_mask = train_mask
+        graph_data['transaction'].val_mask = val_mask
+
         torch.save(graph_data, GRAPH_OBJ_PATH)
         print(f"✅ Graph object saved to {GRAPH_OBJ_PATH}")
     else:
         print(f"Graph object already exists at {GRAPH_OBJ_PATH}")
         graph_data = torch.load(GRAPH_OBJ_PATH)
+        
+        # 2. num_nodes here for an existing graph
+        num_nodes = graph_data['transaction'].num_nodes
 
-    print(f"Ready for training!")
+    
+    print("\n" + "="*30)
+    print("🎉 PIPELINE COMPLETE")
+    print(f"Graph Nodes: {num_nodes}")
+    print(f"Fraud Ratio: {float(graph_data['transaction'].y.sum() / num_nodes):.2%}")
+    print("="*30)
+
 if __name__ == "__main__":
     main()
