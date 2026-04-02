@@ -140,11 +140,20 @@ cython_debug/
 # notebook /experimentation
 notebooks/
 
-# data 
-# Ignore everything inside data
-data/*
+# --- DATA & DVC ---
+# Ignore the actual large data files
+data/raw/
+data/processed/
+services/dl_pipeline/src/models/gnn_fraud_model.pth
 
-# Allow DVC files only
-!data/*.dvc
-!data/**/*.dvc
+# Allow the DVC pointers to be tracked by Git
+!*.dvc
+
+# --- MLFLOW & LOGS ---
+*.db
+__pycache__/
+mlruns/
+mlflow.db
+outputs/
+*.log
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Python,fastapi

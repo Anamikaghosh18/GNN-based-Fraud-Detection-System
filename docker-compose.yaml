@@ -1,10 +1,24 @@
+version: "3.9"
+
 services:
-  ml_pipeline:
-    build: 
-      context: ./services/ml_pipeline
-    volumes:
-      - ./data:/app/data
-      - ./mlruns:/app/mlruns
-    env_file: .env
-    
-    
+  ml_service:
+    build: ./services/dl_pipeline
+    container_name: ml_service
+    ports:
+      - "8001:8000"
+
+  # backend:
+  #   build: ./services/backend
+  #   container_name: backend
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - ml_service
+
+  # frontend:
+  #   build: ./services/frontend
+  #   container_name: frontend
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - backend
