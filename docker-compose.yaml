@@ -1,0 +1,10 @@
+services:
+  ml_pipeline:
+    build: 
+      context: ./services/ml_pipeline
+    volumes:
+      - ./data:/app/data
+      - ./mlruns:/app/mlruns
+    env_file: .env
+    
+    

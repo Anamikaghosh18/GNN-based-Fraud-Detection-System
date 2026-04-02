@@ -1,5 +1,5 @@
 import pandas as pd
-from src.config import *
+from config import *
 
 def load_raw_data():
     train_trans = pd.read_csv(TRAIN_TRANSACTION_PATH)
